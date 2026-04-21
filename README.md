@@ -1,73 +1,88 @@
 # HostelMate
 
-HostelMate is a full-stack hostel management app with:
-- Frontend: Expo React Native (SDK 55, JavaScript)
-- Backend: Node.js + Express (JavaScript)
+HostelMate is a full-stack hostel management application for students and administrators. It combines mobile-first workflows (Expo React Native) with a modular Node.js backend and Firebase.
+
+## Highlights
+
+- Role-based app flow for students and admins
+- Firebase Authentication for login/signup and session handling
+- Firestore-backed hostel modules:
+   - Complaints
+   - Expenses
+   - In/Out logs
+   - Announcements
+- Admin views for student and profile management
+- AI chatbot endpoint with request rate limiting and grounded context
+- Optional SMTP email notifications for module updates
+
+## Tech Stack
+
+- Frontend: Expo + React Native (JavaScript)
+- Backend: Node.js + Express
 - Database: Firebase Firestore
-- Authentication: Firebase Authentication
+- Auth: Firebase Authentication
+- AI: Gemini API (backend service)
 
-## Project Structure
+## Repository Structure
 
-- frontend/
-  - screens/
-  - components/
-  - navigation/
-  - context/
-  - services/
-  - utils/
-  - constants/
-- backend/
-  - routes/
-  - controllers/
-  - models/
-  - config/
-  - middleware/
-
-## Step-by-Step Build Flow
-
-1. Setup frontend (Expo)
-   - Created Expo project and upgraded to SDK 55.
-   - Added navigation, Firebase, SecureStore, AsyncStorage, axios, and UI dependencies.
-
-2. Setup backend (Node.js + Express)
-   - Created Express app with modular route/controller/model architecture.
-   - Added Firebase Admin SDK integration with Firestore.
-
-3. Implement authentication
-   - Frontend uses Firebase Authentication for signup/login.
-   - Session token stored in Expo SecureStore.
-   - User snapshot stored in AsyncStorage.
-
-4. Build feature modules
-   - Complaint, Expense, In/Out logs with form validation and list views.
-   - Mess Menu screen from Firestore collection (with fallback sample data).
-   - Profile screen with secure logout.
-
-5. Integrate chatbot
-   - Added chatbot screen with GenAI backend integration.
-   - Added short conversation memory for multi-turn chat.
-   - Added backend grounding with recent complaints, expenses, and in/out logs.
-   - Added backend rate limiting for chat endpoint protection.
-   - Added local rule-based fallback when AI response is unavailable.
-
-6. Connect frontend with backend
-   - Axios-based API client for /complaints, /expenses, /logs CRUD endpoints, and POST /chat.
-
-## Setup Instructions
-
-### Backend
-
-1. Go to backend:
-
-```bash
-cd backend
+```text
+HostelMate/
+   backend/
+      config/
+      controllers/
+      middleware/
+      models/
+      routes/
+      scripts/
+      services/
+      index.js
+   frontend/
+      assets/
+      components/
+      constants/
+      context/
+      navigation/
+      screens/
+      services/
+      utils/
+      App.js
+   README.md
 ```
 
-2. Copy env values from .env.example and set Firebase credentials.
+## Prerequisites
 
-3. Set GenAI environment values in backend .env:
+- Node.js 18+
+- npm 9+
+- Firebase project with:
+   - Firestore enabled
+   - Authentication enabled
+- Expo Go app or emulator/simulator for mobile testing
+
+## Quick Start
+
+### 1. Clone and install
 
 ```bash
+git clone https://github.com/AdityaSir1512/HostelMate.git
+cd HostelMate
+
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+### 2. Configure backend environment
+
+Create backend/.env from backend/.env.example and fill your own values.
+
+Required backend variables:
+
+```env
+PORT=5001
+FIREBASE_SERVICE_ACCOUNT_KEY={...}
+ALLOW_IN_MEMORY_FALLBACK=false
+ADMIN_EMAIL=admin@hostelmate.com
+ADMIN_PASSWORD=change-this-password
+ADMIN_NAME=Hostel Admin
 GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-1.5-flash
 CHAT_RATE_LIMIT_WINDOW_MS=60000
@@ -80,37 +95,84 @@ SMTP_PASS=your_smtp_password
 SMTP_FROM=no-reply@example.com
 ```
 
-4. Run server:
+Note: Instead of FIREBASE_SERVICE_ACCOUNT_KEY, you can use GOOGLE_APPLICATION_CREDENTIALS in your shell environment.
+
+### 3. Configure frontend Firebase client
+
+Set Firebase web app credentials in frontend/services/firebase.js (or wire these into Expo public env vars if you prefer).
+
+### 4. Run backend
 
 ```bash
-npm install
+cd backend
 npm run dev
 ```
 
-Server runs at http://localhost:5001 by default.
+Backend runs on http://localhost:5001 by default.
 
-### Frontend
-
-1. Go to frontend:
+### 5. Run frontend
 
 ```bash
 cd frontend
-```
-
-2. Configure Firebase client keys in services/firebase.js.
-
-3. Start Expo:
-
-```bash
-npm install
 npm start
 ```
 
-## Notes
+Then choose platform:
 
-- Android emulator uses API base URL http://10.0.2.2:5001.
-- iOS simulator and web use http://127.0.0.1:5001.
-- Physical devices should use EXPO_PUBLIC_API_URL or the Expo host auto-detection.
-- For physical devices, update frontend/services/api.js with your machine IP.
-- Password reset is handled by Firebase Authentication from the login screen.
-- Complaint, expense, and in/out updates can trigger email notifications when SMTP settings are configured.
+- a for Android emulator
+- i for iOS simulator
+- w for web
+
+## Scripts
+
+### Backend
+
+```bash
+npm start          # start server
+npm run dev        # start with nodemon
+npm run create:admin
+```
+
+### Frontend
+
+```bash
+npm start
+npm run android
+npm run ios
+npm run web
+```
+
+## API Modules
+
+The backend exposes route groups under:
+
+- /complaints
+- /expenses
+- /logs
+- /announcements
+- /chat
+
+See backend/routes for endpoint definitions.
+
+## Platform Notes
+
+- Android emulator commonly uses http://10.0.2.2:5001 for local backend.
+- iOS simulator/web commonly use http://127.0.0.1:5001.
+- Physical devices should point to your machine LAN IP via frontend/services/api.js or Expo public env configuration.
+
+## Security Notes
+
+- Never commit secrets, service-account JSON, API keys, or passwords.
+- Env files are gitignored in this repository.
+- If any credential was ever exposed publicly, rotate it immediately in the provider console.
+
+## Roadmap Ideas
+
+- Add automated tests for controllers and services
+- Add CI pipeline (lint + test + build checks)
+- Add role-based backend authorization middleware
+- Add API docs (OpenAPI/Swagger)
+
+## License
+
+ISC
