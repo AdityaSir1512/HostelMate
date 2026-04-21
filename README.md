@@ -1,66 +1,82 @@
 # HostelMate
 
-HostelMate is a full-stack hostel management application for students and administrators. It combines mobile-first workflows (Expo React Native) with a modular Node.js backend and Firebase.
+> Smart hostel operations for students and admins, built mobile-first.
 
-## Highlights
+HostelMate is a full-stack app that streamlines day-to-day hostel workflows using an Expo React Native frontend, a modular Express backend, and Firebase services.
 
-- Role-based app flow for students and admins
-- Firebase Authentication for login/signup and session handling
-- Firestore-backed hostel modules:
-   - Complaints
-   - Expenses
-   - In/Out logs
-   - Announcements
-- Admin views for student and profile management
-- AI chatbot endpoint with request rate limiting and grounded context
-- Optional SMTP email notifications for module updates
+## ✦ Why HostelMate?
 
-## Tech Stack
+- ⚡ Fast role-based flow for students and admins
+- 🔐 Firebase Authentication for secure signup/login
+- 🧾 Core hostel modules powered by Firestore
+- 🤖 AI chatbot endpoint with context + rate limiting
+- 📣 Announcements and operational records in one place
+- 📧 Optional email notifications via SMTP
 
-- Frontend: Expo + React Native (JavaScript)
-- Backend: Node.js + Express
-- Database: Firebase Firestore
-- Auth: Firebase Authentication
-- AI: Gemini API (backend service)
+## ✦ Feature Map
 
-## Repository Structure
+### 👨‍🎓 Student Side
+
+- File and track complaints
+- View and manage expenses
+- Record in/out logs
+- Check announcements and profile
+- Use the chatbot assistant
+
+### 🛠️ Admin Side
+
+- Monitor student operations
+- Review key records (complaints, expenses, logs)
+- Manage profiles and hostel communication
+
+## ✦ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| 📱 Frontend | Expo + React Native (JavaScript) |
+| 🌐 Backend | Node.js + Express |
+| 🗃️ Database | Firebase Firestore |
+| 🔑 Auth | Firebase Authentication |
+| 🧠 AI | Gemini API (backend integration) |
+
+## ✦ Project Structure
 
 ```text
 HostelMate/
-   backend/
-      config/
-      controllers/
-      middleware/
-      models/
-      routes/
-      scripts/
-      services/
-      index.js
-   frontend/
-      assets/
-      components/
-      constants/
-      context/
-      navigation/
-      screens/
-      services/
-      utils/
-      App.js
-   README.md
+  backend/
+    config/
+    controllers/
+    middleware/
+    models/
+    routes/
+    scripts/
+    services/
+    index.js
+  frontend/
+    assets/
+    components/
+    constants/
+    context/
+    navigation/
+    screens/
+    services/
+    utils/
+    App.js
+  README.md
 ```
 
-## Prerequisites
+## ✦ Prerequisites
 
 - Node.js 18+
 - npm 9+
 - Firebase project with:
-   - Firestore enabled
-   - Authentication enabled
-- Expo Go app or emulator/simulator for mobile testing
+  - Firestore enabled
+  - Authentication enabled
+- Expo Go or emulator/simulator
 
-## Quick Start
+## ✦ Quick Start
 
-### 1. Clone and install
+### 1. Clone + Install
 
 ```bash
 git clone https://github.com/AdityaSir1512/HostelMate.git
@@ -70,11 +86,9 @@ cd backend && npm install
 cd ../frontend && npm install
 ```
 
-### 2. Configure backend environment
+### 2. Backend Environment Setup
 
-Create backend/.env from backend/.env.example and fill your own values.
-
-Required backend variables:
+Create backend/.env from backend/.env.example and fill values with your own credentials.
 
 ```env
 PORT=5001
@@ -95,41 +109,41 @@ SMTP_PASS=your_smtp_password
 SMTP_FROM=no-reply@example.com
 ```
 
-Note: Instead of FIREBASE_SERVICE_ACCOUNT_KEY, you can use GOOGLE_APPLICATION_CREDENTIALS in your shell environment.
+Alternative: use GOOGLE_APPLICATION_CREDENTIALS in your shell instead of FIREBASE_SERVICE_ACCOUNT_KEY.
 
-### 3. Configure frontend Firebase client
+### 3. Frontend Firebase Setup
 
-Set Firebase web app credentials in frontend/services/firebase.js (or wire these into Expo public env vars if you prefer).
+Set Firebase web app credentials in frontend/services/firebase.js (or migrate to Expo public env vars).
 
-### 4. Run backend
+### 4. Start Backend
 
 ```bash
 cd backend
 npm run dev
 ```
 
-Backend runs on http://localhost:5001 by default.
+Backend URL: http://localhost:5001
 
-### 5. Run frontend
+### 5. Start Frontend
 
 ```bash
 cd frontend
 npm start
 ```
 
-Then choose platform:
+Expo shortcuts:
 
-- a for Android emulator
-- i for iOS simulator
-- w for web
+- a → Android emulator
+- i → iOS simulator
+- w → Web
 
-## Scripts
+## ✦ Scripts
 
 ### Backend
 
 ```bash
 npm start          # start server
-npm run dev        # start with nodemon
+npm run dev        # nodemon mode
 npm run create:admin
 ```
 
@@ -142,9 +156,9 @@ npm run ios
 npm run web
 ```
 
-## API Modules
+## ✦ API Route Groups
 
-The backend exposes route groups under:
+Backend routes are organized under:
 
 - /complaints
 - /expenses
@@ -152,27 +166,27 @@ The backend exposes route groups under:
 - /announcements
 - /chat
 
-See backend/routes for endpoint definitions.
+Check backend/routes for detailed endpoint files.
 
-## Platform Notes
+## ✦ Platform Networking Notes
 
-- Android emulator commonly uses http://10.0.2.2:5001 for local backend.
-- iOS simulator/web commonly use http://127.0.0.1:5001.
-- Physical devices should point to your machine LAN IP via frontend/services/api.js or Expo public env configuration.
+- Android emulator: http://10.0.2.2:5001
+- iOS simulator/web: http://127.0.0.1:5001
+- Physical device: use your machine LAN IP in frontend/services/api.js or Expo env setup
 
-## Security Notes
+## ✦ Security First
 
-- Never commit secrets, service-account JSON, API keys, or passwords.
-- Env files are gitignored in this repository.
-- If any credential was ever exposed publicly, rotate it immediately in the provider console.
+- 🚫 Never commit secrets (API keys, private keys, passwords)
+- ✅ Env files are gitignored in this repository
+- 🔄 Rotate any credential immediately if exposed
 
-## Roadmap Ideas
+## ✦ Future Enhancements
 
-- Add automated tests for controllers and services
-- Add CI pipeline (lint + test + build checks)
-- Add role-based backend authorization middleware
-- Add API docs (OpenAPI/Swagger)
+- Add automated tests for controllers/services
+- Add CI checks (lint/test/build)
+- Add stronger role-based backend authorization
+- Add OpenAPI/Swagger docs
 
-## License
+## ✦ License
 
 ISC
